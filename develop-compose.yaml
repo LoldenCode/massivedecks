@@ -10,25 +10,27 @@
 # ROOT_DIR: The root directory of the massive decks repository you are working in (work around docker compose issues).
 
 networks:
-  internal:
+  porty_default:
+    name: porty_default
+    external: true
 
 services:
   client:
     build:
       context: "./client/dev"
-    user: "${USER_ID:?err}:${GROUP_ID:?err}"
+    user: "1000:1000"
     ports:
-      - "127.0.0.1:8080:8080/tcp"
+      - "28080:8080/tcp"
     volumes:
-      - ./client:/md/client
+      - /share/CACHEDEV1_DATA/docker/appdata/massivedecks/client:/md/client
     networks:
-      - internal
+      - porty_default
 
   server:
     build:
       context: "./server/dev"
-    user: "${USER_ID:?err}:${GROUP_ID:?err}"
+    user: "1000:1000"
     volumes:
-      - ./server:/md/server
+      - /share/CACHEDEV1_DATA/docker/appdata/massivedecks/server:/md/server
     networks:
-      - internal
+      - porty_default
